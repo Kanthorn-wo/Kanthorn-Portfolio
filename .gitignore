@@ -36,6 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# claude code worktrees - scratch copies from background/audit agent
+# runs (full app + public copies, screenshots), not project content
+/.claude/worktrees/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

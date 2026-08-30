@@ -1,69 +1,105 @@
-import Image from "next/image";
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { ScrollTrigger } from "@/lib/gsap";
+
+import SmoothScroll from "@/components/SmoothScroll";
+import ParticleNetwork from "@/components/particles/ParticleNetwork";
+import SectionDriver from "@/components/particles/SectionDriver";
+import Preloader from "@/components/preloader/Preloader";
+import Nav from "@/components/navigation/Nav";
+import Cursor from "@/components/cursor/Cursor";
+
+import Hero from "@/components/hero/Hero";
+import Statement from "@/components/statement/Statement";
+import ProjectShowcase from "@/components/projects/ProjectShowcase";
+import Featured from "@/components/projects/Featured";
+import Marquee from "@/components/marquee/Marquee";
+import About from "@/components/about/About";
+import ExperienceSection from "@/components/experience/ExperienceSection";
+import Stack from "@/components/stack/Stack";
+import Contact from "@/components/contact/Contact";
+import Footer from "@/components/footer/Footer";
+
+// Five independent interactive demos - not worth the initial bundle.
+const Playground = dynamic(() => import("@/components/playground/Playground"), {
+  ssr: false,
+});
 
 export default function Home() {
+  const [ready, setReady] = useState(false);
+  const onDone = useCallback(() => setReady(true), []);
+
+  /* Every ScrollTrigger below the Hero is created while the preloader
+     still has the body locked, and the Hero's own pin is only created
+     once `ready` flips - which inserts pin spacing and shifts the whole
+     page down. Without a refresh here, every start/end computed before
+     that point is stale, and sections pin hundreds of pixels early.
+     Font swap-in moves things again, so wait for that too. */
+  useEffect(() => {
+    if (!ready) return;
+    ScrollTrigger.refresh();
+    let cancelled = false;
+    document.fonts?.ready.then(() => {
+      if (!cancelled) ScrollTrigger.refresh();
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [ready]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      <SmoothScroll />
+
+      {/* One field for the whole page. Sections steer it; it never remounts. */}
+      <ParticleNetwork />
+      <div className="fine-grid" aria-hidden="true" />
+      <div className="grain" aria-hidden="true" />
+
+      <Cursor />
+      <Preloader onDone={onDone} />
+      <Nav />
+
+      <main id="main">
+        <SectionDriver state="hero" as="div">
+          <Hero ready={ready} />
+        </SectionDriver>
+
+        <SectionDriver state="statement" as="div">
+          <Statement ready={ready} />
+        </SectionDriver>
+
+        <SectionDriver state="projects" as="div" id="work">
+          <ProjectShowcase ready={ready} />
+          <Featured />
+        </SectionDriver>
+
+        <Marquee />
+
+        <SectionDriver state="about" as="div" id="about">
+          <About />
+        </SectionDriver>
+
+        <SectionDriver state="experience" as="div" id="experience">
+          <ExperienceSection ready={ready} />
+        </SectionDriver>
+
+        <SectionDriver state="stack" as="div">
+          <Stack />
+        </SectionDriver>
+
+        <SectionDriver state="playground" as="div">
+          <Playground />
+        </SectionDriver>
+
+        <SectionDriver state="contact" as="div" id="contact">
+          <Contact />
+        </SectionDriver>
       </main>
-    </div>
+
+      <Footer />
+    </>
   );
 }

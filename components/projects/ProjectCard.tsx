@@ -1,9 +1,11 @@
 "use client";
 
 import { useRef } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import type { Project } from "@/data/projects";
+import { pick } from "@/lib/localized";
 import ProjectVisual from "./ProjectVisual";
 
 /* ============================================================
@@ -13,7 +15,10 @@ import ProjectVisual from "./ProjectVisual";
    the same time.
    ============================================================ */
 export default function ProjectCard({ project }: { project: Project }) {
+  const t = useTranslations("projects");
+  const locale = useLocale();
   const rootRef = useRef<HTMLDivElement>(null);
+  const title = pick(project.title, locale);
 
   useIsomorphicLayoutEffect(() => {
     const root = rootRef.current;
@@ -89,7 +94,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           <ProjectVisual
             seed={project.id}
             image={project.image}
-            alt={`${project.title} preview`}
+            alt={`${title} preview`}
           />
         </div>
         <div className="pc-overlay pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,color-mix(in_srgb,var(--bg)_80%,transparent),transparent_55%)] opacity-0" />
@@ -98,7 +103,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         </span>
         {project.featured && (
           <span className="absolute right-4 top-4 rounded-full border border-[var(--accent-cyan)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.18em] text-[var(--accent-cyan)]">
-            Featured
+            {t("featured")}
           </span>
         )}
       </Wrapper>
@@ -106,21 +111,21 @@ export default function ProjectCard({ project }: { project: Project }) {
       {/* Meta */}
       <div className="flex flex-col justify-center">
         <p className="type-meta mb-3">
-          {project.category} — {project.year}
+          {pick(project.category, locale)} — {project.year}
         </p>
         <h3 className="pc-title mb-4 font-display text-[clamp(1.5rem,3vw,2.75rem)] font-semibold leading-[1.05] tracking-[-0.03em] will-change-transform">
-          {project.title}
+          {title}
         </h3>
-        <p className="mb-6 max-w-[46ch] text-[clamp(0.9rem,1.1vw,1rem)] leading-relaxed text-[var(--muted)]">
-          {project.description}
+        <p className="mb-6 max-w-[46ch] break-words text-[clamp(0.9rem,1.1vw,1rem)] leading-relaxed text-[var(--muted)]">
+          {pick(project.description, locale)}
         </p>
         <ul className="flex flex-wrap gap-2">
-          {project.tech.map((t) => (
+          {project.tech.map((tech) => (
             <li
-              key={t}
+              key={tech}
               className="rounded-full border border-[var(--line-strong)] px-3 py-1 font-mono text-[10px] tracking-[0.1em] text-[var(--muted)]"
             >
-              {t}
+              {tech}
             </li>
           ))}
         </ul>
@@ -132,7 +137,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             data-cursor="open"
             className="mt-6 inline-flex w-fit items-center gap-2 border-b border-[var(--line-strong)] pb-1 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors hover:border-[var(--accent-cyan)] hover:text-[var(--accent-cyan)]"
           >
-            View repository <span aria-hidden="true">↗</span>
+            {t("viewRepository")} <span aria-hidden="true">↗</span>
           </a>
         )}
       </div>

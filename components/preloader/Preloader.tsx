@@ -1,11 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { driver } from "@/lib/particleDriver";
 import { DRIVER_STATES } from "@/lib/particleDriver";
 import { site } from "@/data/site";
+import { pick } from "@/lib/localized";
 
 const SESSION_KEY = "kw-preloaded";
 
@@ -21,6 +23,8 @@ const SESSION_KEY = "kw-preloaded";
    only reason to have a preloader at all.
    ============================================================ */
 export default function Preloader({ onDone }: { onDone: () => void }) {
+  const t = useTranslations("preloader");
+  const locale = useLocale();
   const rootRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const barRef = useRef<HTMLSpanElement>(null);
@@ -133,7 +137,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
       className="fixed inset-0 z-[150] flex flex-col justify-between bg-[var(--bg)] px-6 py-8 md:px-12 md:py-12"
       style={{ clipPath: "inset(0% 0% 0% 0%)" }}
     >
-      <div className="type-meta">LOADING</div>
+      <div className="type-meta">{t("loading")}</div>
 
       <div className="flex flex-col gap-3">
         <div className="line-mask">
@@ -144,7 +148,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
         </div>
         <div className="line-mask">
           <div ref={roleRef} className="type-meta">
-            / {site.role}
+            / {pick(site.role, locale)}
           </div>
         </div>
       </div>

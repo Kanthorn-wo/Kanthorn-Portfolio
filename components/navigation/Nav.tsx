@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { gsap, prefersReducedMotion, ScrollTrigger } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { site, sections } from "@/data/site";
+import { pick } from "@/lib/localized";
 import ThemeToggle from "@/components/theme/ThemeToggle";
+import LocaleSwitcher from "@/components/locale/LocaleSwitcher";
 
 const navLinks = sections.filter((s) => s.inNav);
 
@@ -16,6 +19,8 @@ const navLinks = sections.filter((s) => s.inNav);
    stopped introducing itself and the nav becomes a tool.
    ============================================================ */
 export default function Nav() {
+  const t = useTranslations("nav");
+  const locale = useLocale();
   const barRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -190,7 +195,7 @@ export default function Nav() {
   return (
     <>
       <a href="#main" className="skip-link font-mono text-xs">
-        Skip to content
+        {t("skipToContent")}
       </a>
 
       <header className="fixed inset-x-0 top-0 z-[110] px-4 pt-4 md:px-8 md:pt-6">
@@ -207,7 +212,7 @@ export default function Nav() {
             <span className="text-[var(--muted)]"> / 01</span>
           </a>
 
-          <nav aria-label="Primary" className="hidden md:block">
+          <nav aria-label={t("primary")} className="hidden md:block">
             <ul className="flex items-center gap-8">
               {navLinks.map((link) => (
                 <li key={link.id}>
@@ -218,7 +223,7 @@ export default function Nav() {
                     className="group relative font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--muted)] transition-colors hover:text-[var(--text)] aria-[current]:text-[var(--text)]"
                   >
                     <span className="text-[9px] opacity-50">{link.index}</span>{" "}
-                    {link.label}
+                    {pick(link.label, locale)}
                     <span
                       aria-hidden="true"
                       className={`absolute -bottom-1.5 left-0 h-px bg-[var(--accent-cyan)] transition-all duration-500 ${
@@ -232,6 +237,7 @@ export default function Nav() {
           </nav>
 
           <div className="flex items-center gap-4">
+            <LocaleSwitcher />
             <ThemeToggle />
             <button
               ref={menuButtonRef}
@@ -239,7 +245,7 @@ export default function Nav() {
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
               className="flex h-6 w-6 flex-col items-end justify-center gap-[5px] md:hidden"
             >
               <span
@@ -265,7 +271,7 @@ export default function Nav() {
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
-        aria-label="Primary"
+        aria-label={t("primary")}
         hidden={!menuOpen}
         className="fixed inset-0 z-[105] flex flex-col justify-center gap-2 bg-[var(--bg)] px-6 md:hidden"
       >
@@ -277,7 +283,7 @@ export default function Nav() {
             className="font-display text-[clamp(2.5rem,12vw,4rem)] font-semibold uppercase leading-[1.05] tracking-[-0.03em]"
           >
             <span className="type-meta mr-3 align-middle">{link.index}</span>
-            {link.label}
+            {pick(link.label, locale)}
           </a>
         ))}
       </div>

@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { projects } from "@/data/projects";
@@ -22,6 +23,8 @@ import Magnetic from "@/components/animation/Magnetic";
    degrades to a vertical story - which is genuinely better there.
    ============================================================ */
 export default function ProjectShowcase({ ready }: { ready: boolean }) {
+  const t = useTranslations("projects");
+  const locale = useLocale();
   const rootRef = useRef<HTMLDivElement>(null);
 
   useIsomorphicLayoutEffect(() => {
@@ -123,10 +126,10 @@ export default function ProjectShowcase({ ready }: { ready: boolean }) {
       <div className="sticky top-0 z-10 flex min-h-[100svh] flex-col justify-center px-6 py-24 md:px-12">
         <div className="mx-auto w-full max-w-[1600px]">
           <div className="mb-8 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3">
-            <p className="type-meta">{sectionMeta("work")}</p>
+            <p className="type-meta">{sectionMeta("work", locale)}</p>
             <div className="flex items-baseline gap-6">
               <p className="type-meta">
-                {String(projects.length).padStart(2, "0")} Projects
+                {t("count", { n: String(projects.length).padStart(2, "0") })}
               </p>
               <Magnetic strength={0.3}>
                 <Link
@@ -134,7 +137,7 @@ export default function ProjectShowcase({ ready }: { ready: boolean }) {
                   data-cursor="open"
                   className="group inline-flex items-center gap-2 border-b border-[var(--line-strong)] pb-1 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors hover:border-[var(--accent-cyan)] hover:text-[var(--accent-cyan)]"
                 >
-                  View all
+                  {t("viewAll")}
                   <span
                     aria-hidden="true"
                     className="transition-transform duration-500 group-hover:translate-x-1"

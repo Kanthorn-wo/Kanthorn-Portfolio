@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { readThemeColors } from "@/lib/theme";
 import Magnetic from "@/components/animation/Magnetic";
@@ -18,6 +19,7 @@ const box =
 
 /* -------------------------------------------- 01 Magnetic */
 export function MagneticDemo() {
+  const t = useTranslations("playground");
   return (
     <div className={box}>
       <Magnetic strength={0.6}>
@@ -25,7 +27,7 @@ export function MagneticDemo() {
           type="button"
           className="rounded-full border border-[var(--line-strong)] px-7 py-4 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors hover:border-[var(--accent-cyan)] hover:text-[var(--accent-cyan)]"
         >
-          Pull me
+          {t("pullMe")}
         </button>
       </Magnetic>
     </div>
@@ -149,6 +151,7 @@ export function NetworkDemo() {
 
 /* -------------------------------------------- 03 Scroll reveal */
 export function RevealDemo() {
+  const t = useTranslations("playground");
   const ref = useRef<HTMLDivElement>(null);
   const [key, setKey] = useState(0);
 
@@ -172,7 +175,7 @@ export function RevealDemo() {
       type="button"
       onClick={() => setKey((k) => k + 1)}
       className={box + " cursor-pointer"}
-      aria-label="Replay reveal animation"
+      aria-label={t("replayReveal")}
     >
       <div ref={ref} className="flex h-1/2 items-end gap-1.5" key={key}>
         {[0.4, 0.7, 1, 0.55, 0.85, 0.3, 0.65].map((v, i) => (

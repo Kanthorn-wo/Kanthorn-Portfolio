@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { experiments, type Experiment } from "@/data/playground";
+import { pick } from "@/lib/localized";
 import Reveal from "@/components/animation/Reveal";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
@@ -54,6 +56,8 @@ function render(kind: Experiment["kind"]) {
 }
 
 export default function Playground() {
+  const t = useTranslations("playground");
+  const locale = useLocale();
   const rootRef = useRef<HTMLDivElement>(null);
 
   useIsomorphicLayoutEffect(() => {
@@ -88,12 +92,11 @@ export default function Playground() {
             would just repeat "Playground" twice in a row. Section-number
             note: this is not a nav destination, see Stack.tsx. */}
         <div className="line-mask mb-6">
-          <h2 className="pg-head-line type-section-title">Playground</h2>
+          <h2 className="pg-head-line type-section-title">{t("heading")}</h2>
         </div>
         <Reveal y={20}>
           <p className="text-[clamp(1rem,1.3vw,1.1875rem)] leading-relaxed text-[var(--muted)]">
-            Things I build when I&apos;m not building client work. All of
-            these are live — try them.
+            {t("intro")}
           </p>
         </Reveal>
       </div>
@@ -104,11 +107,11 @@ export default function Playground() {
             <Reveal className="flex h-full flex-col">
               <div className="flex items-baseline justify-between px-5 pt-5">
                 <span className="type-meta">{e.index}</span>
-                <span className="type-meta opacity-60">{e.hint}</span>
+                <span className="type-meta opacity-60">{pick(e.hint, locale)}</span>
               </div>
               <div className="h-44 px-2">{render(e.kind)}</div>
               <p className="px-5 pb-5 font-display text-lg font-medium tracking-[-0.02em]">
-                {e.title}
+                {pick(e.title, locale)}
               </p>
             </Reveal>
           </li>

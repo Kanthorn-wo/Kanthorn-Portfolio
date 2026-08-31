@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
+import { useLocale } from "next-intl";
 import dynamic from "next/dynamic";
 import { ScrollTrigger } from "@/lib/gsap";
 
@@ -28,6 +29,7 @@ const Playground = dynamic(() => import("@/components/playground/Playground"), {
 });
 
 export default function Home() {
+  const locale = useLocale();
   const [ready, setReady] = useState(false);
   const onDone = useCallback(() => setReady(true), []);
 
@@ -50,7 +52,12 @@ export default function Home() {
   }, [ready]);
 
   return (
-    <>
+    // Keyed on locale: switching /en <-> /th is a real route change, so
+    // this forces every section's gsap.context() to tear down and
+    // rebuild cleanly against the newly-translated (and possibly
+    // differently-sized) text, instead of trying to re-measure pinned
+    // ScrollTriggers in place.
+    <Fragment key={locale}>
       <SmoothScroll />
 
       {/* One field for the whole page. Sections steer it; it never remounts. */}
@@ -100,6 +107,6 @@ export default function Home() {
       </main>
 
       <Footer />
-    </>
+    </Fragment>
   );
 }

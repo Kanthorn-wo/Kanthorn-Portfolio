@@ -57,6 +57,16 @@
   --font-mono: var(--font-mono), ui-monospace, monospace;
 }
 
+/* Thai fallback: the Latin display/body/mono faces above have no Thai
+   glyphs, so `<html lang="th">` swaps in Noto Sans Thai (loaded in
+   app/[locale]/layout.tsx as --font-thai) everywhere those tokens are
+   used, without touching the English typography at all. */
+:lang(th) {
+  --font-display: var(--font-thai), var(--font-body), system-ui, sans-serif;
+  --font-body: var(--font-thai), system-ui, sans-serif;
+  --font-mono: var(--font-thai), ui-monospace, monospace;
+}
+
 /* ============================================================
    BASE
    ============================================================ */
@@ -160,6 +170,27 @@ html.lenis body {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+/* Thai has no case, and the heavy positive tracking above (and on the
+   uppercase/tracking-[...] utilities used ad hoc across nav links,
+   badges and buttons) visibly disrupts combining vowel/tone marks -
+   reset both wherever the active locale is Thai. */
+:lang(th) .type-display,
+:lang(th) .type-statement,
+:lang(th) .type-section-title,
+:lang(th) .type-meta,
+:lang(th) .uppercase {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Catches the many one-off tracking-[...] utility classes sprinkled
+   across nav links, badges and buttons - an attribute selector on the
+   class string itself, since there is no single primitive class that
+   covers all of them. */
+:lang(th) [class*="tracking-"] {
+  letter-spacing: normal;
 }
 
 .gradient-text {

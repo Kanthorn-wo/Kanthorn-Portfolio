@@ -1,9 +1,11 @@
 "use client";
 
 import { useRef } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { featuredProject } from "@/data/projects";
+import { pick } from "@/lib/localized";
 import ProjectVisual from "./ProjectVisual";
 import Magnetic from "@/components/animation/Magnetic";
 
@@ -17,6 +19,8 @@ import Magnetic from "@/components/animation/Magnetic";
    parallax within itself.
    ============================================================ */
 export default function Featured() {
+  const t = useTranslations("projects");
+  const locale = useLocale();
   const rootRef = useRef<HTMLElement>(null);
 
   useIsomorphicLayoutEffect(() => {
@@ -90,6 +94,7 @@ export default function Featured() {
   }, []);
 
   const p = featuredProject;
+  const title = pick(p.title, locale);
 
   return (
     <section
@@ -97,8 +102,10 @@ export default function Featured() {
       className="relative z-10 mx-auto max-w-[1600px] px-6 py-24 md:px-12 md:py-36"
     >
       <div className="mb-8 flex items-baseline justify-between">
-        <p className="feat-eyebrow type-meta">Project {p.index} — Featured</p>
-        <p className="feat-eyebrow type-meta">{p.category}</p>
+        <p className="feat-eyebrow type-meta">
+          {t("projectFeaturedEyebrow", { index: p.index })}
+        </p>
+        <p className="feat-eyebrow type-meta">{pick(p.category, locale)}</p>
       </div>
 
       <div className="feat-frame relative mb-10 h-[52vh] overflow-hidden rounded-lg border border-[var(--line)] bg-[var(--bg-elevated)] md:h-[76vh]">
@@ -106,7 +113,7 @@ export default function Featured() {
           <ProjectVisual
             seed={p.id + "-featured"}
             image={p.image}
-            alt={`${p.title} preview`}
+            alt={`${title} preview`}
           />
         </div>
       </div>
@@ -115,7 +122,7 @@ export default function Featured() {
         <div>
           <h2 className="mb-6 type-section-title">
             <span className="line-mask">
-              <span className="feat-line block">{p.title}</span>
+              <span className="feat-line block">{title}</span>
             </span>
           </h2>
           <Magnetic strength={0.3}>
@@ -127,7 +134,7 @@ export default function Featured() {
               data-cursor="open"
               className="feat-body-in group inline-flex items-center gap-3 border-b border-[var(--line-strong)] pb-2 font-mono text-xs uppercase tracking-[0.2em] transition-colors hover:border-[var(--accent-cyan)] hover:text-[var(--accent-cyan)]"
             >
-              View case study
+              {t("viewCaseStudy")}
               <span
                 aria-hidden="true"
                 className="transition-transform duration-500 group-hover:translate-x-1"
@@ -139,17 +146,17 @@ export default function Featured() {
         </div>
 
         <div>
-          <p className="feat-body-in mb-8 max-w-[48ch] text-[clamp(1rem,1.3vw,1.1875rem)] leading-relaxed text-[var(--muted)]">
-            {p.description}
+          <p className="feat-body-in mb-8 max-w-[48ch] break-words text-[clamp(1rem,1.3vw,1.1875rem)] leading-relaxed text-[var(--muted)]">
+            {pick(p.description, locale)}
           </p>
-          <p className="feat-body-in type-meta mb-3">Technology</p>
+          <p className="feat-body-in type-meta mb-3">{t("technology")}</p>
           <ul className="feat-body-in flex flex-wrap gap-2">
-            {p.tech.map((t) => (
+            {p.tech.map((tech) => (
               <li
-                key={t}
+                key={tech}
                 className="rounded-full border border-[var(--line-strong)] px-3 py-1 font-mono text-[11px] tracking-[0.1em]"
               >
-                {t}
+                {tech}
               </li>
             ))}
           </ul>

@@ -1,12 +1,15 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { allProjects } from "@/data/allProjects";
 import { site } from "@/data/site";
+import { pick } from "@/lib/localized";
 import ProjectVisual from "./ProjectVisual";
 import Reveal from "@/components/animation/Reveal";
 import ThemeToggle from "@/components/theme/ThemeToggle";
+import LocaleSwitcher from "@/components/locale/LocaleSwitcher";
 
 /* ============================================================
    PROJECTS ARCHIVE
@@ -24,6 +27,8 @@ import ThemeToggle from "@/components/theme/ThemeToggle";
 const PAGE_SIZE = 9;
 
 export default function ProjectsArchive() {
+  const t = useTranslations("projects");
+  const locale = useLocale();
   const [page, setPage] = useState(1);
   const gridRef = useRef<HTMLDivElement>(null);
   const totalPages = Math.max(1, Math.ceil(allProjects.length / PAGE_SIZE));
@@ -49,7 +54,7 @@ export default function ProjectsArchive() {
             className="font-mono text-xs uppercase tracking-[0.2em]"
           >
             {site.firstName}
-            <span className="text-[var(--muted)]"> / Projects</span>
+            <span className="text-[var(--muted)]"> {t("archiveBrandSuffix")}</span>
           </Link>
           <div className="flex items-center gap-6">
             <Link
@@ -57,8 +62,9 @@ export default function ProjectsArchive() {
               data-cursor="open"
               className="hidden font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--muted)] transition-colors hover:text-[var(--text)] md:inline"
             >
-              ← Back to home
+              {t("backToHome")}
             </Link>
+            <LocaleSwitcher />
             <ThemeToggle />
           </div>
         </div>
@@ -66,11 +72,10 @@ export default function ProjectsArchive() {
 
       <main className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-24">
         <div ref={gridRef} className="mb-14 max-w-2xl scroll-mt-24 md:mb-20">
-          <p className="type-meta mb-4">Archive</p>
-          <h1 className="type-section-title mb-6">All Projects</h1>
+          <p className="type-meta mb-4">{t("archiveEyebrow")}</p>
+          <h1 className="type-section-title mb-6">{t("allProjects")}</h1>
           <p className="text-[clamp(1rem,1.3vw,1.1875rem)] leading-relaxed text-[var(--muted)]">
-            {allProjects.length} projects, newest first. The homepage shows a
-            curated few - this is the rest of it.
+            {t("archiveSubtitle", { n: allProjects.length })}
           </p>
         </div>
 
@@ -82,6 +87,7 @@ export default function ProjectsArchive() {
           className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3"
         >
           {pageItems.map((p) => {
+              const title = pick(p.title, locale);
               const Wrapper = p.href ? "a" : "div";
               const wrapperProps = p.href
                 ? {
@@ -100,7 +106,7 @@ export default function ProjectsArchive() {
                         <ProjectVisual
                           seed={p.id}
                           image={p.image}
-                          alt={`${p.title} preview`}
+                          alt={`${title} preview`}
                         />
                       </div>
                       <span className="absolute left-3 top-3 font-mono text-[10px] tracking-[0.2em] text-[var(--muted)]">
@@ -108,18 +114,18 @@ export default function ProjectsArchive() {
                       </span>
                       {p.featured && (
                         <span className="absolute right-3 top-3 rounded-full border border-[var(--accent-cyan)] px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-[var(--accent-cyan)]">
-                          Featured
+                          {t("featured")}
                         </span>
                       )}
                     </div>
                     <p className="type-meta mb-1.5">
-                      {p.category} — {p.year}
+                      {pick(p.category, locale)} — {p.year}
                     </p>
                     <h2 className="mb-2 font-display text-lg font-semibold leading-tight tracking-[-0.02em] transition-colors group-hover:text-[var(--accent-cyan)]">
-                      {p.title}
+                      {title}
                     </h2>
                     <p className="line-clamp-2 text-sm leading-relaxed text-[var(--muted)]">
-                      {p.description}
+                      {pick(p.description, locale)}
                     </p>
                   </Wrapper>
                 </li>
@@ -128,7 +134,7 @@ export default function ProjectsArchive() {
         </Reveal>
 
         <nav
-          aria-label="Pagination"
+          aria-label={t("pagination")}
           className="mt-16 flex items-center justify-between border-t border-[var(--line)] pt-8 md:mt-20"
         >
           <button
@@ -138,7 +144,7 @@ export default function ProjectsArchive() {
             data-cursor="open"
             className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--muted)] transition-colors hover:text-[var(--text)] disabled:pointer-events-none disabled:opacity-30"
           >
-            ← Prev
+            {t("prev")}
           </button>
           <p className="type-meta" aria-live="polite">
             {String(page).padStart(2, "0")} /{" "}
@@ -151,7 +157,7 @@ export default function ProjectsArchive() {
             data-cursor="open"
             className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--muted)] transition-colors hover:text-[var(--text)] disabled:pointer-events-none disabled:opacity-30"
           >
-            Next →
+            {t("next")}
           </button>
         </nav>
       </main>

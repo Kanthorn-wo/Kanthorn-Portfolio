@@ -4,21 +4,30 @@
    and it updates everywhere on the page.
    ============================================================ */
 
+import type { Locale } from "@/i18n/routing";
+import { pick, type Localized } from "@/lib/localized";
+
 export const site = {
   // Spelled per your resume + email address (kanthorn.wo@).
   // The old site rendered "KANTHRON" — change here if you prefer that.
   firstName: "KANTHORN",
   lastName: "WONGSOMA",
 
-  role: "Front-End Developer",
-  title: "Computer Engineer",
-  identity: "Creative Front-End Engineer / Interactive Web Developer",
+  role: { en: "Front-End Developer", th: "นักพัฒนาฝั่ง Front-End" } as Localized,
+  title: { en: "Computer Engineer", th: "วิศวกรคอมพิวเตอร์" } as Localized,
+  identity: {
+    en: "Creative Front-End Engineer / Interactive Web Developer",
+    th: "วิศวกร Front-End เชิงสร้างสรรค์ / นักพัฒนาเว็บเชิงอินเทอร์แอกทีฟ",
+  } as Localized,
 
   // From your resume. Change to "Bangkok / Thailand" if you have moved.
   location: "Nakhon Ratchasima / Thailand",
   coordinates: "14.9799 N / 102.0977 E",
 
-  tagline: "I build digital experiences where code meets motion.",
+  tagline: {
+    en: "I build digital experiences where code meets motion.",
+    th: "ผมสร้างประสบการณ์ดิจิทัลที่โค้ดมาบรรจบกับการเคลื่อนไหว",
+  } as Localized,
 
   email: "kanthorn.wo@gmail.com",
   github: "https://github.com/Kanthorn1995",
@@ -26,7 +35,10 @@ export const site = {
   linkedin: "",
 
   available: true,
-  availableLabel: "Available for opportunities",
+  availableLabel: {
+    en: "Available for opportunities",
+    th: "เปิดรับโอกาสใหม่ ๆ",
+  } as Localized,
 
   year: "2026",
 } as const;
@@ -47,16 +59,41 @@ export const heroMeta = ["FRONT-END", "NEXT.JS", "TYPESCRIPT", "GSAP"] as const;
    is now exactly one.
    ============================================================ */
 export const sections = [
-  { id: "hero", label: "INDEX", index: "00", inNav: false },
-  { id: "work", label: "WORK", index: "01", inNav: true },
-  { id: "about", label: "ABOUT", index: "02", inNav: true },
-  { id: "experience", label: "EXPERIENCE", index: "03", inNav: true },
-  { id: "contact", label: "CONTACT", index: "04", inNav: true },
+  {
+    id: "hero",
+    label: { en: "INDEX", th: "หน้าแรก" } as Localized,
+    index: "00",
+    inNav: false,
+  },
+  {
+    id: "work",
+    label: { en: "WORK", th: "ผลงาน" } as Localized,
+    index: "01",
+    inNav: true,
+  },
+  {
+    id: "about",
+    label: { en: "ABOUT", th: "เกี่ยวกับ" } as Localized,
+    index: "02",
+    inNav: true,
+  },
+  {
+    id: "experience",
+    label: { en: "EXPERIENCE", th: "ประสบการณ์" } as Localized,
+    index: "03",
+    inNav: true,
+  },
+  {
+    id: "contact",
+    label: { en: "CONTACT", th: "ติดต่อ" } as Localized,
+    index: "04",
+    inNav: true,
+  },
 ] as const;
 
 /** Look up a section's number/label pair for an in-page badge. */
-export function sectionMeta(id: (typeof sections)[number]["id"]) {
+export function sectionMeta(id: (typeof sections)[number]["id"], locale: Locale) {
   const s = sections.find((x) => x.id === id);
   if (!s) throw new Error(`Unknown section id: ${id}`);
-  return `${s.index} / ${s.label}`;
+  return `${s.index} / ${pick(s.label, locale)}`;
 }

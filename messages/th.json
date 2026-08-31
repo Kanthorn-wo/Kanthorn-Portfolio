@@ -1,0 +1,76 @@
+{
+  "nav": {
+    "skipToContent": "ข้ามไปยังเนื้อหา",
+    "primary": "เมนูหลัก",
+    "openMenu": "เปิดเมนู",
+    "closeMenu": "ปิดเมนู"
+  },
+  "hero": {
+    "viewWork": "ดูผลงาน",
+    "scrollToExplore": "เลื่อนเพื่อสำรวจ"
+  },
+  "projects": {
+    "count": "{n} โปรเจกต์",
+    "viewAll": "ดูทั้งหมด",
+    "featured": "ผลงานเด่น",
+    "viewRepository": "ดู Repository",
+    "technology": "เทคโนโลยี",
+    "projectFeaturedEyebrow": "โปรเจกต์ {index} — ผลงานเด่น",
+    "viewCaseStudy": "ดู Case Study",
+    "archiveBrandSuffix": "/ โปรเจกต์",
+    "archiveEyebrow": "คลังผลงาน",
+    "allProjects": "โปรเจกต์ทั้งหมด",
+    "archiveSubtitle": "{n} โปรเจกต์ เรียงจากล่าสุด หน้าแรกแสดงเฉพาะที่คัดสรรไว้ ส่วนนี้คือที่เหลือทั้งหมด",
+    "backToHome": "← กลับหน้าแรก",
+    "pagination": "การแบ่งหน้า",
+    "prev": "← ก่อนหน้า",
+    "next": "ถัดไป →"
+  },
+  "about": {
+    "careEyebrow": "สิ่งที่ผมให้ความสำคัญ",
+    "headingLine1": "Interaction",
+    "headingLine2": "ต้องมาก่อน"
+  },
+  "experience": {
+    "role": "ตำแหน่ง",
+    "organisation": "องค์กร",
+    "description": "รายละเอียด",
+    "technology": "เทคโนโลยี"
+  },
+  "stack": {
+    "eyebrow": "สแตก",
+    "heading": "เครื่องมือที่ผมใช้"
+  },
+  "playground": {
+    "heading": "Playground",
+    "intro": "สิ่งที่ผมสร้างขึ้นเวลาที่ไม่ได้ทำงานให้ลูกค้า ทุกชิ้นสามารถลองเล่นได้จริง",
+    "pullMe": "ดึงฉันสิ",
+    "replayReveal": "เล่นแอนิเมชันซ้ำ"
+  },
+  "contact": {
+    "email": "อีเมล",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "profile": "โปรไฟล์",
+    "startConversation": "เริ่มพูดคุยกัน",
+    "mailSubject": "มาสร้างอะไรบางอย่างกัน"
+  },
+  "footer": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "อีเมล"
+  },
+  "cursor": {
+    "view": "ดู",
+    "open": "เปิด",
+    "explore": "สำรวจ",
+    "send": "ส่ง"
+  },
+  "theme": {
+    "switchToLight": "สลับเป็นธีมสว่าง",
+    "switchToDark": "สลับเป็นธีมมืด"
+  },
+  "preloader": {
+    "loading": "กำลังโหลด"
+  }
+}

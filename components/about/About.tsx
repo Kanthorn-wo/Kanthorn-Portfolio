@@ -1,35 +1,18 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
-import { site } from "@/data/site";
+import { site, sectionMeta } from "@/data/site";
 import { principles } from "@/data/skills";
-import { sectionMeta } from "@/data/site";
+import { aboutBlocks } from "@/data/about";
+import { pick } from "@/lib/localized";
 import Reveal from "@/components/animation/Reveal";
 
-const blocks = [
-  {
-    n: "01",
-    title: "Who",
-    body: `I'm ${site.firstName.charAt(0)}${site.firstName.slice(1).toLowerCase()} ${site.lastName.charAt(0)}${site.lastName.slice(1).toLowerCase()} — a Computer Engineer working as a Front-End Developer, building modern web experiences from the interface down to the architecture underneath.`,
-  },
-  {
-    n: "02",
-    title: "How",
-    body: "I start from the interaction. A layout is only finished when it knows how it behaves — how it enters, how it responds, how it degrades. Motion is part of the design, not decoration added afterwards.",
-  },
-  {
-    n: "03",
-    title: "What",
-    body: "Production work in Next.js and TypeScript, backoffice systems that stay fast under real data, and full-stack builds across Laravel and Node. Front-end is where I focus, but I've shipped the layers behind it too.",
-  },
-  {
-    n: "04",
-    title: "Why",
-    body: "Because the web is the one medium where craft is immediately felt and rarely present. A site that moves well tells you someone cared — before a single word is read.",
-  },
-];
+const displayName = `${site.firstName.charAt(0)}${site.firstName
+  .slice(1)
+  .toLowerCase()} ${site.lastName.charAt(0)}${site.lastName.slice(1).toLowerCase()}`;
 
 /* ============================================================
    ABOUT
@@ -39,6 +22,8 @@ const blocks = [
    a magazine rather than a stack of paragraphs.
    ============================================================ */
 export default function About() {
+  const t = useTranslations("about");
+  const locale = useLocale();
   const rootRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -105,16 +90,16 @@ export default function About() {
               have to rewrap it - Reveal only tweens y/opacity on the
               block, so the nested markup is untouched. */}
           <Reveal stagger>
-            <p className="type-meta mb-8">{sectionMeta("about")}</p>
+            <p className="type-meta mb-8">{sectionMeta("about", locale)}</p>
             <h2 className="type-section-title mb-12">
-              Interaction
+              {t("headingLine1")}
               <br />
-              <span className="text-[var(--muted)]">first.</span>
+              <span className="text-[var(--muted)]">{t("headingLine2")}</span>
             </h2>
           </Reveal>
 
           <ol className="hidden md:block" aria-label="Section progress">
-            {blocks.map((b, i) => (
+            {aboutBlocks.map((b, i) => (
               <li
                 key={b.n}
                 className="flex items-center gap-3 py-2"
@@ -133,7 +118,7 @@ export default function About() {
                     active === i ? "text-[var(--text)]" : "text-[var(--muted)]"
                   }`}
                 >
-                  {b.n} {b.title.toUpperCase()}
+                  {b.n} {pick(b.title, locale).toUpperCase()}
                 </span>
               </li>
             ))}
@@ -142,24 +127,24 @@ export default function About() {
 
         {/* Narrative */}
         <div className="flex flex-col gap-16 md:gap-24">
-          {blocks.map((b) => (
+          {aboutBlocks.map((b) => (
             <Reveal key={b.n} className="about-block" y={reduced ? 0 : 40}>
               <p className="type-meta mb-4">{b.n}</p>
-              <p className="max-w-[46ch] text-[clamp(1.125rem,2vw,1.75rem)] leading-[1.45] tracking-[-0.01em]">
-                {b.body}
+              <p className="max-w-[46ch] break-words text-[clamp(1.125rem,2vw,1.75rem)] leading-[1.45] tracking-[-0.01em]">
+                {pick(b.body, locale).replace("{name}", displayName)}
               </p>
             </Reveal>
           ))}
 
           <Reveal className="border-t border-[var(--line)] pt-10">
-            <p className="type-meta mb-6">I care about</p>
+            <p className="type-meta mb-6">{t("careEyebrow")}</p>
             <ul className="flex flex-wrap gap-x-8 gap-y-3">
               {principles.map((p) => (
                 <li
-                  key={p}
+                  key={p.en}
                   className="font-display text-[clamp(1.25rem,2.4vw,2rem)] font-medium tracking-[-0.02em]"
                 >
-                  {p}
+                  {pick(p, locale)}
                 </li>
               ))}
             </ul>

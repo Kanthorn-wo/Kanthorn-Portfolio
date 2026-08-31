@@ -22,14 +22,16 @@ export const skills: Skill[] = [
   { name: "MONGODB", z: 0.12 },
 ];
 
+import type { Localized } from "@/lib/localized";
+
 /** The About section "I care about" list. */
-export const principles = [
-  "Interaction",
-  "Motion",
-  "Performance",
-  "Clean Architecture",
-  "User Experience",
-] as const;
+export const principles: Localized<string>[] = [
+  { en: "Interaction", th: "อินเทอร์แอกชัน" },
+  { en: "Motion", th: "การเคลื่อนไหว" },
+  { en: "Performance", th: "ประสิทธิภาพ" },
+  { en: "Clean Architecture", th: "สถาปัตยกรรมที่สะอาด" },
+  { en: "User Experience", th: "ประสบการณ์ผู้ใช้" },
+];
 
 /** Marquee words. Kept short - long words read as noise at speed. */
 export const marqueeWords = [

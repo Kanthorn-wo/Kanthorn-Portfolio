@@ -1,0 +1,76 @@
+{
+  "nav": {
+    "skipToContent": "Skip to content",
+    "primary": "Primary",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "viewWork": "View Work",
+    "scrollToExplore": "Scroll to explore"
+  },
+  "projects": {
+    "count": "{n} Projects",
+    "viewAll": "View all",
+    "featured": "Featured",
+    "viewRepository": "View repository",
+    "technology": "Technology",
+    "projectFeaturedEyebrow": "Project {index} — Featured",
+    "viewCaseStudy": "View case study",
+    "archiveBrandSuffix": "/ Projects",
+    "archiveEyebrow": "Archive",
+    "allProjects": "All Projects",
+    "archiveSubtitle": "{n} projects, newest first. The homepage shows a curated few - this is the rest of it.",
+    "backToHome": "← Back to home",
+    "pagination": "Pagination",
+    "prev": "← Prev",
+    "next": "Next →"
+  },
+  "about": {
+    "careEyebrow": "I care about",
+    "headingLine1": "Interaction",
+    "headingLine2": "first."
+  },
+  "experience": {
+    "role": "Role",
+    "organisation": "Organisation",
+    "description": "Description",
+    "technology": "Technology"
+  },
+  "stack": {
+    "eyebrow": "Stack",
+    "heading": "Tools I speak"
+  },
+  "playground": {
+    "heading": "Playground",
+    "intro": "Things I build when I'm not building client work. All of these are live — try them.",
+    "pullMe": "Pull me",
+    "replayReveal": "Replay reveal animation"
+  },
+  "contact": {
+    "email": "Email",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "profile": "Profile",
+    "startConversation": "Start a conversation",
+    "mailSubject": "Let's build something"
+  },
+  "footer": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "Email"
+  },
+  "cursor": {
+    "view": "VIEW",
+    "open": "OPEN",
+    "explore": "EXPLORE",
+    "send": "SEND"
+  },
+  "theme": {
+    "switchToLight": "Switch to light theme",
+    "switchToDark": "Switch to dark theme"
+  },
+  "preloader": {
+    "loading": "LOADING"
+  }
+}

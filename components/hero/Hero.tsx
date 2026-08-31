@@ -1,12 +1,14 @@
 "use client";
 
 import { useRef } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { driver } from "@/lib/particleDriver";
 import { heroStart, heroEnd } from "@/lib/pinLayout";
 import { EASE } from "@/lib/animations";
 import { site, heroMeta } from "@/data/site";
+import { pick } from "@/lib/localized";
 import Magnetic from "@/components/animation/Magnetic";
 
 /* ============================================================
@@ -25,6 +27,8 @@ import Magnetic from "@/components/animation/Magnetic";
       what sells the "camera walking through digital space" idea.
    ============================================================ */
 export default function Hero({ ready }: { ready: boolean }) {
+  const t = useTranslations("hero");
+  const locale = useLocale();
   const rootRef = useRef<HTMLElement>(null);
 
   useIsomorphicLayoutEffect(() => {
@@ -143,12 +147,12 @@ export default function Hero({ ready }: { ready: boolean }) {
         <div className="max-w-xl">
           <div className="line-mask mb-5">
             <p className="hero-role font-display text-[clamp(1.25rem,2.6vw,2rem)] font-medium uppercase tracking-[-0.02em]">
-              {site.role}
-              <span className="text-[var(--muted)]"> / {site.title}</span>
+              {pick(site.role, locale)}
+              <span className="text-[var(--muted)]"> / {pick(site.title, locale)}</span>
             </p>
           </div>
           <p className="hero-desc max-w-md text-[clamp(0.95rem,1.15vw,1.0625rem)] leading-relaxed text-[var(--muted)]">
-            {site.tagline}
+            {pick(site.tagline, locale)}
           </p>
         </div>
 
@@ -160,7 +164,7 @@ export default function Hero({ ready }: { ready: boolean }) {
               className="group inline-flex items-center gap-4 rounded-full border border-[var(--line-strong)] px-7 py-4 transition-colors hover:border-[var(--accent-cyan)]"
             >
               <span className="font-mono text-xs uppercase tracking-[0.2em]">
-                View Work
+                {t("viewWork")}
               </span>
               <span
                 aria-hidden="true"
@@ -174,7 +178,7 @@ export default function Hero({ ready }: { ready: boolean }) {
       </div>
 
       <div className="hero-scroll mt-10 flex items-center justify-between border-t border-[var(--line)] pt-5">
-        <span className="type-meta">Scroll to explore</span>
+        <span className="type-meta">{t("scrollToExplore")}</span>
         <span className="type-meta hidden sm:inline">{site.coordinates}</span>
         <span className="type-meta">{site.location}</span>
       </div>

@@ -1,11 +1,16 @@
+"use client";
+
+import { useLocale, useTranslations } from "next-intl";
 import { site } from "@/data/site";
+import { pick } from "@/lib/localized";
 import Reveal from "@/components/animation/Reveal";
 
 export default function Footer() {
+  const t = useTranslations("footer");
+  const locale = useLocale();
+
   return (
     <footer className="relative z-10 border-t border-[var(--line)] px-6 py-10 md:px-12">
-      {/* Reveal is a client component; a server component can render
-          one directly - no "use client" needed on Footer itself. */}
       <Reveal
         stagger
         className="mx-auto flex max-w-[1600px] flex-col gap-8 md:flex-row md:items-end md:justify-between"
@@ -14,7 +19,7 @@ export default function Footer() {
           <p className="font-display text-lg font-semibold uppercase tracking-[-0.02em]">
             {site.firstName} {site.lastName}
           </p>
-          <p className="type-meta mt-2">{site.role}</p>
+          <p className="type-meta mt-2">{pick(site.role, locale)}</p>
           <p className="type-meta mt-1">{site.location}</p>
         </div>
 
@@ -25,7 +30,7 @@ export default function Footer() {
                 aria-hidden="true"
                 className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--accent-cyan)]"
               />
-              {site.availableLabel}
+              {pick(site.availableLabel, locale)}
             </p>
           )}
           <ul className="flex gap-6">
@@ -37,7 +42,7 @@ export default function Footer() {
                 data-cursor="open"
                 className="type-meta transition-colors hover:text-[var(--text)]"
               >
-                GitHub
+                {t("github")}
               </a>
             </li>
             {site.linkedin && (
@@ -49,7 +54,7 @@ export default function Footer() {
                   data-cursor="open"
                   className="type-meta transition-colors hover:text-[var(--text)]"
                 >
-                  LinkedIn
+                  {t("linkedin")}
                 </a>
               </li>
             )}
@@ -59,7 +64,7 @@ export default function Footer() {
                 data-cursor="send"
                 className="type-meta transition-colors hover:text-[var(--text)]"
               >
-                Email
+                {t("email")}
               </a>
             </li>
           </ul>

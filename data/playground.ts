@@ -4,18 +4,50 @@
    `kind` selects the component - see components/playground/.
    ============================================================ */
 
+import type { Localized } from "@/lib/localized";
+
 export type Experiment = {
   index: string;
-  title: string;
+  title: Localized;
   kind: "magnetic" | "network" | "reveal" | "distortion" | "tilt" | "scramble";
-  hint: string;
+  hint: Localized;
 };
 
 export const experiments: Experiment[] = [
-  { index: "01", title: "Magnetic Button", kind: "magnetic", hint: "Move closer" },
-  { index: "02", title: "Particle Node", kind: "network", hint: "Drag inside" },
-  { index: "03", title: "Scroll Reveal", kind: "reveal", hint: "Click to replay" },
-  { index: "04", title: "Text Distortion", kind: "distortion", hint: "Sweep across" },
-  { index: "05", title: "Parallax Card", kind: "tilt", hint: "Hover to tilt" },
-  { index: "06", title: "Scramble Text", kind: "scramble", hint: "Hover to decode" },
+  {
+    index: "01",
+    title: { en: "Magnetic Button", th: "ปุ่มแม่เหล็ก" },
+    kind: "magnetic",
+    hint: { en: "Move closer", th: "ขยับเข้าใกล้" },
+  },
+  {
+    index: "02",
+    title: { en: "Particle Node", th: "อนุภาคเชื่อมโยง" },
+    kind: "network",
+    hint: { en: "Drag inside", th: "ลากภายใน" },
+  },
+  {
+    index: "03",
+    title: { en: "Scroll Reveal", th: "เผยผลเมื่อเลื่อน" },
+    kind: "reveal",
+    hint: { en: "Click to replay", th: "คลิกเพื่อเล่นซ้ำ" },
+  },
+  {
+    index: "04",
+    title: { en: "Text Distortion", th: "ข้อความบิดเบี้ยว" },
+    kind: "distortion",
+    hint: { en: "Sweep across", th: "กวาดผ่าน" },
+  },
+  {
+    index: "05",
+    title: { en: "Parallax Card", th: "การ์ดพารัลแลกซ์" },
+    kind: "tilt",
+    hint: { en: "Hover to tilt", th: "ชี้เมาส์เพื่อเอียง" },
+  },
+  {
+    index: "06",
+    title: { en: "Scramble Text", th: "ข้อความสลับอักษร" },
+    kind: "scramble",
+    hint: { en: "Hover to decode", th: "ชี้เมาส์เพื่อถอดรหัส" },
+  },
 ];

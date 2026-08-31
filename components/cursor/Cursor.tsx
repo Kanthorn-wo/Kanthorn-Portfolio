@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { gsap, prefersReducedMotion, isCoarsePointer } from "@/lib/gsap";
 
 /* ============================================================
@@ -15,17 +16,25 @@ import { gsap, prefersReducedMotion, isCoarsePointer } from "@/lib/gsap";
    data-cursor to new markup costs nothing.
    ============================================================ */
 
-const LABELS: Record<string, string> = {
-  view: "VIEW",
-  open: "OPEN",
-  explore: "EXPLORE",
-  send: "SEND",
-};
-
 export default function Cursor() {
+  const t = useTranslations("cursor");
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
+  // Read imperatively inside the pointerover handler below, which runs
+  // outside React's render cycle - a plain module-level LABELS map
+  // can't react to the current locale, so the translated strings are
+  // captured in a ref (updated in an effect, never during render) that
+  // always reflects the latest render's `t()`.
+  const labelsRef = useRef<Record<string, string>>({});
+  useEffect(() => {
+    labelsRef.current = {
+      view: t("view"),
+      open: t("open"),
+      explore: t("explore"),
+      send: t("send"),
+    };
+  }, [t]);
 
   useEffect(() => {
     if (isCoarsePointer() || prefersReducedMotion()) return;
@@ -75,8 +84,8 @@ export default function Cursor() {
     const setState = (kind: string | null, el: HTMLElement | null) => {
       magneticEl = el && el.hasAttribute("data-magnetic") ? el : null;
 
-      if (kind && LABELS[kind]) {
-        label.textContent = LABELS[kind];
+      if (kind && labelsRef.current[kind]) {
+        label.textContent = labelsRef.current[kind];
         gsap.to(ring, {
           width: 74,
           height: 74,

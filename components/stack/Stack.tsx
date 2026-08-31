@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { skills } from "@/data/skills";
@@ -16,6 +17,7 @@ import { lerp, EASE } from "@/lib/animations";
    section reads as a space you are moving through.
    ============================================================ */
 export default function Stack() {
+  const t = useTranslations("stack");
   const rootRef = useRef<HTMLDivElement>(null);
 
   useIsomorphicLayoutEffect(() => {
@@ -89,7 +91,7 @@ export default function Stack() {
           version hardcoded "04" here, which quietly disagreed with
           Contact's nav-driven "04" - see data/site.ts sectionMeta. */}
       <div className="line-mask mb-4">
-        <p className="stack-head-line type-meta">Stack</p>
+        <p className="stack-head-line type-meta">{t("eyebrow")}</p>
       </div>
       {/* relative/z-10/bg/pb are load-bearing: they keep parallaxing
           .stack-item words from painting over this heading as they
@@ -107,7 +109,7 @@ export default function Stack() {
           pb-* class placed directly on .line-mask silently loses. */}
       <div className="relative z-10 bg-[var(--bg)] pb-16 md:pb-24">
         <div className="line-mask">
-          <h2 className="stack-head-line type-section-title">Tools I speak</h2>
+          <h2 className="stack-head-line type-section-title">{t("heading")}</h2>
         </div>
       </div>
 

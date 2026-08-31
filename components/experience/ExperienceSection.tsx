@@ -1,10 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { experience } from "@/data/experience";
 import { sectionMeta } from "@/data/site";
+import { pick } from "@/lib/localized";
+import type { Locale } from "@/i18n/routing";
 
 /* ============================================================
    EXPERIENCE
@@ -17,6 +20,8 @@ import { sectionMeta } from "@/data/site";
    gives, so it falls back to an honest vertical stack.
    ============================================================ */
 export default function ExperienceSection({ ready }: { ready: boolean }) {
+  const t = useTranslations("experience");
+  const locale = useLocale();
   const rootRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -111,7 +116,7 @@ export default function ExperienceSection({ ready }: { ready: boolean }) {
     >
       <div className="sticky top-0 z-10 flex min-h-[100svh] flex-col justify-center px-6 py-28 md:px-12">
         <div className="mx-auto w-full max-w-[1600px]">
-          <p className="exp-eyebrow type-meta mb-12">{sectionMeta("experience")}</p>
+          <p className="exp-eyebrow type-meta mb-12">{sectionMeta("experience", locale)}</p>
 
           {/* Ghost year - the background clock for the whole section */}
           <div
@@ -131,13 +136,13 @@ export default function ExperienceSection({ ready }: { ready: boolean }) {
           <div className="relative flex flex-col gap-14 md:block md:min-h-[340px]">
             {experience.map((e) => (
               <article
-                key={e.year + e.org}
+                key={e.year}
                 className="exp-panel md:absolute md:inset-0"
               >
                 <p className="mb-3 font-display text-4xl font-bold tracking-[-0.03em] text-[var(--muted)] md:hidden">
                   {e.year}
                 </p>
-                <ExperienceBody item={e} />
+                <ExperienceBody item={e} t={t} locale={locale} />
               </article>
             ))}
           </div>
@@ -145,7 +150,7 @@ export default function ExperienceSection({ ready }: { ready: boolean }) {
           {/* Progress rail */}
           <ol className="mt-14 hidden gap-6 md:flex" aria-label="Timeline">
             {experience.map((e, i) => (
-              <li key={e.year + e.org} className="flex-1">
+              <li key={e.year} className="flex-1">
                 <span
                   aria-hidden="true"
                   className={`block h-px transition-colors duration-500 ${
@@ -170,38 +175,46 @@ export default function ExperienceSection({ ready }: { ready: boolean }) {
   );
 }
 
-function ExperienceBody({ item }: { item: (typeof experience)[number] }) {
+function ExperienceBody({
+  item,
+  t,
+  locale,
+}: {
+  item: (typeof experience)[number];
+  t: ReturnType<typeof useTranslations>;
+  locale: Locale;
+}) {
   return (
     <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-16">
       <div>
-        <p className="type-meta mb-2">Role</p>
+        <p className="type-meta mb-2">{t("role")}</p>
         <h3 className="mb-5 font-display text-[clamp(1.5rem,3vw,2.5rem)] font-semibold leading-tight tracking-[-0.03em]">
-          {item.role}
+          {pick(item.role, locale)}
         </h3>
-        <p className="type-meta mb-1">Organisation</p>
+        <p className="type-meta mb-1">{t("organisation")}</p>
         <p
           className={`text-lg ${
             item.placeholder ? "text-[var(--muted)] italic" : ""
           }`}
         >
-          {item.org}
+          {pick(item.org, locale)}
         </p>
         <p className="type-meta mt-4">{item.period}</p>
       </div>
 
       <div>
-        <p className="type-meta mb-3">Description</p>
-        <p className="mb-8 max-w-[52ch] text-[clamp(1rem,1.4vw,1.25rem)] leading-relaxed text-[var(--muted)]">
-          {item.description}
+        <p className="type-meta mb-3">{t("description")}</p>
+        <p className="mb-8 max-w-[52ch] break-words text-[clamp(1rem,1.4vw,1.25rem)] leading-relaxed text-[var(--muted)]">
+          {pick(item.description, locale)}
         </p>
-        <p className="type-meta mb-3">Technology</p>
+        <p className="type-meta mb-3">{t("technology")}</p>
         <ul className="flex flex-wrap gap-2">
-          {item.tech.map((t) => (
+          {item.tech.map((tech) => (
             <li
-              key={t}
+              key={tech}
               className="rounded-full border border-[var(--line-strong)] px-3 py-1 font-mono text-[11px] tracking-[0.1em]"
             >
-              {t}
+              {tech}
             </li>
           ))}
         </ul>

@@ -1,12 +1,13 @@
 "use client";
 
 import { useRef } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { site, sectionMeta } from "@/data/site";
+import { contactLines } from "@/data/contact";
+import { pick } from "@/lib/localized";
 import Magnetic from "@/components/animation/Magnetic";
-
-const LINES = ["LET'S BUILD", "SOMETHING", "INTERESTING."];
 
 /* ============================================================
    CONTACT — the ending scene.
@@ -18,6 +19,8 @@ const LINES = ["LET'S BUILD", "SOMETHING", "INTERESTING."];
    the thing they have been travelling through.
    ============================================================ */
 export default function Contact() {
+  const t = useTranslations("contact");
+  const locale = useLocale();
   const rootRef = useRef<HTMLDivElement>(null);
 
   useIsomorphicLayoutEffect(() => {
@@ -57,13 +60,13 @@ export default function Contact() {
   }, []);
 
   const links = [
-    { label: "Email", value: site.email, href: `mailto:${site.email}`, cursor: "send" },
-    { label: "GitHub", value: "@Kanthorn1995", href: site.github, cursor: "open" },
+    { label: t("email"), value: site.email, href: `mailto:${site.email}`, cursor: "send" },
+    { label: t("github"), value: "@Kanthorn1995", href: site.github, cursor: "open" },
     ...(site.linkedin
       ? [
           {
-            label: "LinkedIn",
-            value: "Profile",
+            label: t("linkedin"),
+            value: t("profile"),
             href: site.linkedin,
             cursor: "open",
           },
@@ -76,17 +79,17 @@ export default function Contact() {
       ref={rootRef}
       className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1600px] flex-col justify-center px-6 py-28 md:px-12"
     >
-      <p className="contact-eyebrow type-meta mb-10">{sectionMeta("contact")}</p>
+      <p className="contact-eyebrow type-meta mb-10">{sectionMeta("contact", locale)}</p>
 
       <h2 className="mb-16 md:mb-24">
-        {LINES.map((line, i) => (
-          <span key={line} className="line-mask">
+        {contactLines.map((line) => (
+          <span key={line.id} className="line-mask">
             <span
               className={`contact-line type-statement block ${
-                i === 2 ? "gradient-text" : ""
+                line.gradient ? "gradient-text" : ""
               }`}
             >
-              {line}
+              {pick(line.text, locale)}
             </span>
           </span>
         ))}
@@ -122,12 +125,12 @@ export default function Contact() {
         <div className="contact-detail">
           <Magnetic strength={0.35}>
             <a
-              href={`mailto:${site.email}?subject=Let%27s%20build%20something`}
+              href={`mailto:${site.email}?subject=${encodeURIComponent(t("mailSubject"))}`}
               data-cursor="send"
               className="group inline-flex items-center gap-4 rounded-full border border-[var(--line-strong)] px-8 py-5 transition-colors hover:border-[var(--accent-cyan)]"
             >
               <span className="font-mono text-xs uppercase tracking-[0.2em]">
-                Start a conversation
+                {t("startConversation")}
               </span>
               <span
                 aria-hidden="true"

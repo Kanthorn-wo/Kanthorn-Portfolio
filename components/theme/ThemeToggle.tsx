@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { useTheme } from "./ThemeProvider";
@@ -8,6 +9,7 @@ import { useTheme } from "./ThemeProvider";
 /* A single sliding knob inside a hairline track. The knob carries
    the accent gradient - one of the few places accent is allowed. */
 export default function ThemeToggle() {
+  const t = useTranslations("theme");
   const { theme, toggle } = useTheme();
   const knobRef = useRef<HTMLSpanElement>(null);
 
@@ -25,7 +27,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+      aria-label={theme === "dark" ? t("switchToLight") : t("switchToDark")}
       aria-pressed={theme === "light"}
       data-cursor="open"
       className="relative h-6 w-11 shrink-0 rounded-full border border-[var(--line-strong)] p-[3px] transition-colors hover:border-[var(--accent-cyan)]"

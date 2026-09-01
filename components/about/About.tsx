@@ -10,9 +10,14 @@ import { aboutBlocks } from "@/data/about";
 import { pick } from "@/lib/localized";
 import Reveal from "@/components/animation/Reveal";
 
-const displayName = `${site.firstName.charAt(0)}${site.firstName
+const fullName = `${site.firstName.charAt(0)}${site.firstName
   .slice(1)
   .toLowerCase()} ${site.lastName.charAt(0)}${site.lastName.slice(1).toLowerCase()}`;
+
+// Both spellings, on both locales - the Thai name has nowhere else to
+// appear as real page content, and this is what makes the site findable
+// when someone searches "กันต์ธร วงษ์โสมะ".
+const displayName = `${fullName} (${site.nameTh})`;
 
 /* ============================================================
    ABOUT

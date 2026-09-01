@@ -13,6 +13,10 @@ export const site = {
   firstName: "KANTHORN",
   lastName: "WONGSOMA",
 
+  // Thai spelling of the same name - used in structured data and the
+  // About section so the site is findable by Thai-language name search.
+  nameTh: "กันต์ธร วงษ์โสมะ",
+
   role: { en: "Front-End Developer", th: "นักพัฒนาฝั่ง Front-End" } as Localized,
   title: { en: "Computer Engineer", th: "วิศวกรคอมพิวเตอร์" } as Localized,
   identity: {
@@ -30,9 +34,8 @@ export const site = {
   } as Localized,
 
   email: "kanthorn.wo@gmail.com",
-  github: "https://github.com/Kanthorn1995",
-  // TODO: add your LinkedIn URL - the link stays hidden until this is filled in.
-  linkedin: "",
+  github: "https://github.com/Kanthorn-wo",
+  linkedin: "https://www.linkedin.com/in/kanthorn-wongsoma-438083244/",
 
   available: true,
   availableLabel: {
@@ -42,6 +45,10 @@ export const site = {
 
   year: "2026",
 } as const;
+
+// TODO: swap for the custom domain once one is bought - every metadata
+// URL (canonical, sitemap, OG image, JSON-LD) is derived from this.
+export const siteUrl = "https://kanthorn-portfolio.vercel.app";
 
 /** Editorial labels floating in the hero. Keep to 4 - more reads as badge soup. */
 export const heroMeta = ["FRONT-END", "NEXT.JS", "TYPESCRIPT", "GSAP"] as const;

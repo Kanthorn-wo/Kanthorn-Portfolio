@@ -6,7 +6,7 @@ import { Space_Grotesk, Inter, JetBrains_Mono, Noto_Sans_Thai } from "next/font/
 import Script from "next/script";
 import "../globals.css";
 import { ThemeProvider, themeInitScript } from "@/components/theme/ThemeProvider";
-import { site } from "@/data/site";
+import { site, siteUrl } from "@/data/site";
 import { pick } from "@/lib/localized";
 import { routing, type Locale } from "@/i18n/routing";
 
@@ -61,6 +61,7 @@ export async function generateMetadata({
   const description = pick(site.tagline, l);
 
   return {
+    metadataBase: new URL(siteUrl),
     title,
     description,
     authors: [{ name: fullName }],
@@ -72,8 +73,10 @@ export async function generateMetadata({
       "GSAP",
       "Interactive Web",
       fullName,
+      site.nameTh,
     ],
     alternates: {
+      canonical: `/${l}`,
       languages: {
         en: "/en",
         th: "/th",
@@ -84,6 +87,16 @@ export async function generateMetadata({
       description,
       type: "website",
       locale: l === "th" ? "th_TH" : "en_US",
+      url: `/${l}`,
+      siteName: fullName,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    verification: {
+      google: "WCCPx1ZiCH-Q8RvjL_bss4nSPYA6TFFGugXw-yUjcmU",
     },
   };
 }
@@ -108,6 +121,26 @@ export default async function LocaleLayout({
 
   const messages = await getMessages();
 
+  // Person schema so Google's knowledge graph can associate this site
+  // with both the English and Thai spellings of the name (search intent
+  // this is meant to satisfy: "Kanthorn Wongsoma" / "กันต์ธร วงษ์โสมะ").
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: fullName,
+    alternateName: site.nameTh,
+    jobTitle: pick(site.role, locale as Locale),
+    description: pick(site.identity, locale as Locale),
+    url: siteUrl,
+    email: `mailto:${site.email}`,
+    sameAs: [site.github, site.linkedin].filter(Boolean),
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Nakhon Ratchasima",
+      addressCountry: "TH",
+    },
+  };
+
   return (
     <html
       lang={locale}
@@ -115,6 +148,10 @@ export default async function LocaleLayout({
       className={`${display.variable} ${body.variable} ${mono.variable} ${thai.variable}`}
     >
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         {/* Applies the stored theme before first paint. Without this a
             stored light preference flashes dark on every load.
             next/script's beforeInteractive strategy (not a raw <script>

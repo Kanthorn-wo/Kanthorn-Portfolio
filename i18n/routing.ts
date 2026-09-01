@@ -5,6 +5,10 @@ export const routing = defineRouting({
   locales: ["en", "th"],
   defaultLocale: "en",
   localePrefix: "always",
+  // Without this, next-intl auto-redirects "/" to "/th" for visitors
+  // whose browser Accept-Language is Thai, overriding defaultLocale.
+  // "/" should always land on English first; visitors can still switch.
+  localeDetection: false,
 });
 
 export type Locale = (typeof routing.locales)[number];

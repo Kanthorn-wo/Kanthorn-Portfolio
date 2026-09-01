@@ -61,7 +61,7 @@ export default function Contact() {
 
   const links = [
     { label: t("email"), value: site.email, href: `mailto:${site.email}`, cursor: "send" },
-    { label: t("github"), value: "@Kanthorn1995", href: site.github, cursor: "open" },
+    { label: t("github"), value: "@Kanthorn-wo", href: site.github, cursor: "open" },
     ...(site.linkedin
       ? [
           {

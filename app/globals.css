@@ -185,6 +185,22 @@ html.lenis body {
   letter-spacing: normal;
 }
 
+/* Thai combining vowels/tone marks (สระ, วรรณยุกต์) stack above AND
+   below the consonant line - at the tight 0.86-1 line-heights above
+   (tuned for all-caps Latin, which has no ascenders/descenders past
+   cap-height) those marks render outside the line box and get
+   sheared by the surrounding .line-mask/.st-line-mask reveal's
+   overflow:hidden. Verified on Noto Sans Thai: line-height 0.95 cut
+   ~27% of the glyph height off both the top and bottom of each line.
+   1.5 was the smallest tested value with zero measured clipping.
+   Line-height (not mask padding) because the mask's own font-size is
+   inherited from its container, not from the 144px+ text inside it -
+   em-based mask padding silently resolves against the wrong size. */
+:lang(th) .type-statement,
+:lang(th) .type-section-title {
+  line-height: 1.5;
+}
+
 /* Catches the many one-off tracking-[...] utility classes sprinkled
    across nav links, badges and buttons - an attribute selector on the
    class string itself, since there is no single primitive class that

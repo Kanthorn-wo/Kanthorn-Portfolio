@@ -4,7 +4,9 @@ import { createNavigation } from "next-intl/navigation";
 export const routing = defineRouting({
   locales: ["en", "th"],
   defaultLocale: "en",
-  localePrefix: "always",
+  // "as-needed": default locale (en) is served at "/" with no prefix;
+  // only non-default locales ("/th") get a prefix.
+  localePrefix: "as-needed",
   // Without this, next-intl auto-redirects "/" to "/th" for visitors
   // whose browser Accept-Language is Thai, overriding defaultLocale.
   // "/" should always land on English first; visitors can still switch.

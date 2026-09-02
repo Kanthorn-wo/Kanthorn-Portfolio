@@ -76,9 +76,9 @@ export async function generateMetadata({
       site.nameTh,
     ],
     alternates: {
-      canonical: `/${l}`,
+      canonical: l === "en" ? "/" : `/${l}`,
       languages: {
-        en: "/en",
+        en: "/",
         th: "/th",
       },
     },
@@ -87,7 +87,7 @@ export async function generateMetadata({
       description,
       type: "website",
       locale: l === "th" ? "th_TH" : "en_US",
-      url: `/${l}`,
+      url: l === "en" ? "/" : `/${l}`,
       siteName: fullName,
     },
     twitter: {

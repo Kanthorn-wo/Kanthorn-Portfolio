@@ -26,7 +26,7 @@ export async function generateMetadata({
     description,
     alternates: {
       languages: {
-        en: "/en/projects",
+        en: "/projects",
         th: "/th/projects",
       },
     },

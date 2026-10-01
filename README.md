@@ -21,7 +21,6 @@ npm run lint
 | `data/projects.ts` | The project showcase and the featured project |
 | `data/experience.ts` | The career timeline |
 | `data/skills.ts` | The "Tools I speak" depth field, the About principles, marquee words |
-| `data/playground.ts` | Which mini-experiments appear and their labels |
 
 ### Things flagged for you
 

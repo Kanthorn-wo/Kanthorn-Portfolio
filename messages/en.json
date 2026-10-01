@@ -41,12 +41,6 @@
     "eyebrow": "Stack",
     "heading": "Tools I speak"
   },
-  "playground": {
-    "heading": "Playground",
-    "intro": "Things I build when I'm not building client work. All of these are live — try them.",
-    "pullMe": "Pull me",
-    "replayReveal": "Replay reveal animation"
-  },
   "contact": {
     "email": "Email",
     "github": "GitHub",

@@ -41,12 +41,6 @@
     "eyebrow": "สแตก",
     "heading": "เครื่องมือที่ผมใช้"
   },
-  "playground": {
-    "heading": "Playground",
-    "intro": "สิ่งที่ผมสร้างขึ้นเวลาที่ไม่ได้ทำงานให้ลูกค้า ทุกชิ้นสามารถลองเล่นได้จริง",
-    "pullMe": "ดึงฉันสิ",
-    "replayReveal": "เล่นแอนิเมชันซ้ำ"
-  },
   "contact": {
     "email": "อีเมล",
     "github": "GitHub",

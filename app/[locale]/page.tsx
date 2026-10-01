@@ -2,7 +2,6 @@
 
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useLocale } from "next-intl";
-import dynamic from "next/dynamic";
 import { ScrollTrigger } from "@/lib/gsap";
 
 import SmoothScroll from "@/components/SmoothScroll";
@@ -22,11 +21,6 @@ import ExperienceSection from "@/components/experience/ExperienceSection";
 import Stack from "@/components/stack/Stack";
 import Contact from "@/components/contact/Contact";
 import Footer from "@/components/footer/Footer";
-
-// Five independent interactive demos - not worth the initial bundle.
-const Playground = dynamic(() => import("@/components/playground/Playground"), {
-  ssr: false,
-});
 
 export default function Home() {
   const locale = useLocale();
@@ -95,10 +89,6 @@ export default function Home() {
 
         <SectionDriver state="stack" as="div">
           <Stack />
-        </SectionDriver>
-
-        <SectionDriver state="playground" as="div">
-          <Playground />
         </SectionDriver>
 
         <SectionDriver state="contact" as="div" id="contact">

@@ -54,7 +54,6 @@ export const DRIVER_STATES = {
   experience: { density: 0.5, opacity: 0.28, linkAlpha: 0.7, drift: 0.35, converge: 0, speed: 1, accent: 0 },
   stack: { density: 0.8, opacity: 0.34, linkAlpha: 1.0, drift: 0, converge: 0, speed: 1.1, accent: 0.15 },
   projects: { density: 0.25, opacity: 0.15, linkAlpha: 0.5, drift: 0, converge: 0, speed: 0.6, accent: 0 },
-  playground: { density: 0.55, opacity: 0.26, linkAlpha: 0.8, drift: 0, converge: 0, speed: 1, accent: 0.2 },
   contact: { density: 1.0, opacity: 0.7, linkAlpha: 1.0, drift: 0, converge: 0.55, speed: 1.2, accent: 0.6 },
 } as const;
 
